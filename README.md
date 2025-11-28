@@ -197,7 +197,7 @@ Recommended to install [Chris](https://github.com/AkiKurisu/Chris) to use Unreal
 
 > Install from git url `https://github.com/AkiKurisu/Chris`
 
-![Console Variable](./images/console_variables.png)
+![Console Variable](./Documentation~/images/console_variables.png)
 
 # Gameplay Integration
 
@@ -207,7 +207,7 @@ Recommended to install [Chris.Gameplay](https://github.com/AkiKurisu/Chris.Gamep
 
 > Install from git url `https://github.com/AkiKurisu/Chris.Gameplay`
 
-![Dynamic Volume](./images/dynamic_volume.png)
+![Dynamic Volume](./Documentation~/images/dynamic_volume.png)
 
 # Documents
 
