@@ -36,7 +36,7 @@ namespace Illusion.Rendering.Shadows
         /// Maximum sampling distance for PCSS.
         /// </summary>
         [Tooltip("Maximum sampling distance for PCSS.")]
-        public ClampedFloatParameter maxSamplingDistance = new(0.5f, 0.0f, 2.0f);
+        public ClampedFloatParameter maxSamplingDistance = new(0.5f, 0.0f, 10.0f);
 
         /// <summary>
         /// Minimum filter size in texels.
