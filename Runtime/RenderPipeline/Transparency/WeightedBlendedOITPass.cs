@@ -39,7 +39,10 @@ namespace Illusion.Rendering
             _rendererData = rendererData;
             renderPassEvent = IllusionRenderPassEvent.OrderIndependentTransparentPass;
             _filteringSettings = new FilteringSettings(RenderQueueRange.all, layerMask);
-            _renderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
+            _renderStateBlock = new RenderStateBlock(RenderStateMask.Depth)
+            {
+                depthState = new DepthState(false, CompareFunction.LessEqual)
+            };
             profilingSampler = new ProfilingSampler("Order Independent Transparency");
         }
 
