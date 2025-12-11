@@ -193,8 +193,7 @@ void TEMPORAL_ACCUMULATION(uint3 dispatchThreadId : SV_DispatchThreadID, uint2 g
 
     // Compute the pixel coordinate for the history tapping
     float2 historyUVUnscaled = ((currentCoord + 0.5)/(_ScreenSize.xy * _DenoiserResolutionMultiplierVals.xx)) - velocity;
-    // float2 historyUV = historyUVUnscaled * _DenoiserResolutionMultiplierVals.zz * _HistorySizeAndScale.zw; @IllusionRP: Why?
-    float2 historyUV = historyUVUnscaled;
+    float2 historyUV = historyUVUnscaled * _DenoiserResolutionMultiplierVals.zz * _HistorySizeAndScale.zw;
 
     // Fetch the current value, history value and current sample count
 #if HISTORY_IS_ARRAY

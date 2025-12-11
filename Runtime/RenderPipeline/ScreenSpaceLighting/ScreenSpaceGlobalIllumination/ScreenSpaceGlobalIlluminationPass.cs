@@ -511,7 +511,7 @@ namespace Illusion.Rendering
             cmd.SetComputeIntParam(_temporalFilterCS, Properties.OccluderMotionRejection, 0);
             cmd.SetComputeFloatParam(_temporalFilterCS, Properties.PixelSpreadAngleTangent, pixelSpreadTangent);
             cmd.SetComputeVectorParam(_temporalFilterCS, Properties.DenoiserResolutionMultiplierVals,
-                new Vector4(resolutionMultiplier, 1.0f / resolutionMultiplier, resolutionMultiplier, 1.0f / resolutionMultiplier));
+                new Vector4(resolutionMultiplier, 1.0f / resolutionMultiplier, 1, 1));
             cmd.SetComputeIntParam(_temporalFilterCS, Properties.EnableExposureControl, 1);
 
             // Bind output buffer
@@ -530,7 +530,7 @@ namespace Illusion.Rendering
             cmd.SetComputeTextureParam(_temporalFilterCS, _temporalFilterCopyHistoryKernel,
                 Properties.DenoiseOutputTextureRW, historyRT);
             cmd.SetComputeVectorParam(_temporalFilterCS, Properties.DenoiserResolutionMultiplierVals,
-                new Vector4(resolutionMultiplier, 1.0f / resolutionMultiplier, resolutionMultiplier, 1.0f / resolutionMultiplier));
+                new Vector4(resolutionMultiplier, 1.0f / resolutionMultiplier, 1, 1));
             cmd.DispatchCompute(_temporalFilterCS, _temporalFilterCopyHistoryKernel, tilesX, tilesY, IllusionRendererData.MaxViewCount);
         }
 
