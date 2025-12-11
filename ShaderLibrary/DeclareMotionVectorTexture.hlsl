@@ -17,13 +17,8 @@ half2 LoadMotionVector(uint2 positionSS)
     return LOAD_TEXTURE2D_X(_MotionVectorTexture, positionSS).xy;
 }
 
-bool PixelSetAsNoMotionVectors(in float4 inBuffer)
-{
-    return inBuffer.x > 1.0f;
-}
-
 void DecodeMotionVector(float4 inBuffer, out float2 motionVector)
 {
-    motionVector = PixelSetAsNoMotionVectors(inBuffer) ? 0.0f : inBuffer.xy;
+    motionVector = inBuffer.xy;
 }
 #endif
