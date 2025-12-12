@@ -123,7 +123,7 @@ void DualLobeSmoothness(in half Smoothness, half Smoothness1, half Smoothness2, 
     Lobe2Smoothness = saturate(Smoothness * Smoothness2);
 }
 
-half3 SkinSpecular(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, half lightAttenuation,
+half3 SkinSpecular(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, float lightAttenuation,
     half3 normalWS, half3 viewDirectionWS, SkinData SkinData)
 {
     half clampedNdotL = max(saturate(dot(normalWS, lightDirectionWS)), 0.00001);

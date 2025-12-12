@@ -40,7 +40,7 @@ void SheenScattering(BRDFData brdfData, half NoH, half NoV, half NoL, out half S
 #endif
 }
 
-half3 AnisoFabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, half lightAttenuation,
+half3 AnisoFabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, float lightAttenuation,
                           half3 normalWS, half3 viewDirectionWS, bool specularHighlightsOff,
                           AnisotropyData anisotropyData, SheenData SheenData, BRDFOcclusionFactor aoFactor)
 {
@@ -109,7 +109,7 @@ half3 AnisoFabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirect
     return brdf * Radiance;
 }
 
-half3 FabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, half lightAttenuation,
+half3 FabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, float lightAttenuation,
                     half3 normalWS, half3 viewDirectionWS,
                     bool specularHighlightsOff, SheenData SheenData, BRDFOcclusionFactor aoFactor)
 {

@@ -323,7 +323,7 @@ half3 HairMarschner(BRDFData brdfData, half3 L, half3 V, half3 N, HairData HairD
     return specR;
 }
 
-half3 HairLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, half lightAttenuation,
+half3 HairLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, float lightAttenuation,
                             half3 normalWS, half3 viewDirectionWS, half shadow,
                             HairData HairData, BRDFOcclusionFactor aoFactor)
 {

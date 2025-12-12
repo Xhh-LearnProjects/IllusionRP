@@ -32,7 +32,7 @@ half3 LightingSpecular(half3 lightColor, half3 lightDir, half3 normal, half3 vie
 }
 
 half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat,
-    half3 lightColor, half3 lightDirectionWS, half lightAttenuation,
+    half3 lightColor, half3 lightDirectionWS, float lightAttenuation,
     half3 normalWS, half3 viewDirectionWS,
     half clearCoatMask, bool specularHighlightsOff, BRDFOcclusionFactor aoFactor)
 {
