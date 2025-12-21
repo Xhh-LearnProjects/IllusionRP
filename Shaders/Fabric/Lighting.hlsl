@@ -53,7 +53,7 @@ half3 AnisoFabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirect
     half3 H = normalize(lightDirectionWS + viewDirectionWS);
     half NoH = saturate(dot(normalWS, H));
     half NoV = saturate(abs(dot(normalWS, viewDirectionWS)) + 1e-5);
-    half NoL = saturate(dot(normalWS, lightDirectionWS));
+    half NoL = dot(normalWS, lightDirectionWS);
     half VoH = saturate(dot(viewDirectionWS, H));
     half ToV = dot(anisotropyData.T, viewDirectionWS);
     half ToL = dot(anisotropyData.T, lightDirectionWS);
@@ -63,6 +63,7 @@ half3 AnisoFabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirect
     half BoH = dot(anisotropyData.B, H);
 
     lightAttenuation *= NoL >= 0.0 ? ComputeMicroShadowing(occlusion, NoL, _MicroShadowOpacity) : 1.0;
+    NoL = saturate(NoL);
     half3 Radiance = NoL * lightColor * lightAttenuation;
     
     half3 diffuse = Diffuse_OrenNayar(NoV, brdfData.diffuse, brdfData.roughness);
@@ -127,8 +128,9 @@ half3 FabricLighting(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS
                     bool specularHighlightsOff, SheenData SheenData, BRDFOcclusionFactor aoFactor)
 {
     half3 H = normalize(lightDirectionWS + viewDirectionWS);
-    half NoL = saturate(dot(normalWS, lightDirectionWS));
+    half NoL = dot(normalWS, lightDirectionWS);
     lightAttenuation *= NoL >= 0.0 ? ComputeMicroShadowing(occlusion, NoL, _MicroShadowOpacity) : 1.0;
+    NoL = saturate(NoL);
     half3 radiance = lightColor * (lightAttenuation * NoL);
     
     half NoV = saturate(abs(dot(normalWS, viewDirectionWS)) + 1e-5);

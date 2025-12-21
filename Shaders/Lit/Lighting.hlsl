@@ -38,11 +38,12 @@ half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat,
     half clearCoatMask, bool specularHighlightsOff, BRDFOcclusionFactor aoFactor)
 {
     float3 h = SafeNormalize(float3(viewDirectionWS) + float3(lightDirectionWS));
-    half NdotL = saturate(dot(normalWS, lightDirectionWS));
+    half NdotL = dot(normalWS, lightDirectionWS);
     float hDotV = max(dot(h, viewDirectionWS), 0.0);
     half NdotH = saturate(dot(normalWS, h));
     
     lightAttenuation *= NdotL >= 0.0 ? ComputeMicroShadowing(occlusion, NdotL, _MicroShadowOpacity) : 1.0;
+    NdotL = saturate(NdotL);
     
     half3 radiance = lightColor * (lightAttenuation * NdotL);
     float NdotV = dot(normalWS, viewDirectionWS);
@@ -89,8 +90,9 @@ half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat, Lig
     bool specularHighlightsOff, BRDFOcclusionFactor aoFactor)
 {
     return LightingPhysicallyBased(brdfData, brdfDataClearCoat, light.color, light.direction,
-        light.distanceAttenuation * light.shadowAttenuation, inputData.normalWS,
-        inputData.viewDirectionWS, surfaceData.occlusion, surfaceData.clearCoatMask, specularHighlightsOff, aoFactor);
+        light.distanceAttenuation * light.shadowAttenuation, surfaceData.occlusion,
+        inputData.normalWS,
+        inputData.viewDirectionWS, surfaceData.clearCoatMask, specularHighlightsOff, aoFactor);
 }
 
 half3 CalculateBlinnPhong(Light light, InputData inputData, SurfaceData surfaceData)

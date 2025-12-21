@@ -80,12 +80,13 @@ half3 SkinDiffuse(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS,
     float3 h = SafeNormalize(float3(viewDirectionWS) + float3(lightDirectionWS));
     float hDotV = max(dot(h, viewDirectionWS), 0.0);
     float LoH = saturate(dot(h, lightDirectionWS));
-    half NdotL = saturate(dot(normalWS, lightDirectionWS));
+    half NdotL = dot(normalWS, lightDirectionWS);
     half NdotH = saturate(dot(normalWS, h));
     float clampNdotV = ClampNdotV(dot(normalWS, viewDirectionWS));
     float LdotV = saturate(dot(lightDirectionWS, viewDirectionWS));
     
     shadow *= NdotL >= 0.0 ? ComputeMicroShadowing(occlusion, NdotL, _MicroShadowOpacity) : 1.0;
+    NdotL = saturate(NdotL);
     
 #ifdef _DISNEY_DIFFUSE_BURLEY
     half3 diffuseTerm = DirectBRDFDiffuseTermNoPI(NdotL, clampNdotV, LdotV, brdfData.perceptualRoughness).xxx;
