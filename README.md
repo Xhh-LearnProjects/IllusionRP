@@ -15,9 +15,15 @@ Unity high-definition graphics plugin for Universal Render Pipelines.
 
 # Demo
 
+[Sponza Demo](https://github.com/AkiKurisu/IllusionRP-Demo)
+
+IllusionRP demo for Sponza scene.
+
+<b>AIChara Remaster Demo</b> 
+
 IllusionRP is first designed to re-rendering game characters of @ILLUSION.
 
-AIChara Remade Demo is <b>WIP</b>, stay tuned.
+Demo is WIP, stay tuned.
 
 ![Showcase](./Documentation~/images/showcase.png)
 
