@@ -138,6 +138,8 @@ namespace Illusion.Rendering.PRTGI
         private int _currentProbeUpdateIndex;
 
         private int _probesToUpdateCount;
+        
+        private int _lastRoundRobinProbeCount;
 
         private uint _frameCount;
 
@@ -533,6 +535,9 @@ namespace Illusion.Rendering.PRTGI
             // Calculate total budget for this frame
             int totalBudget = _probesToUpdateCount + localProbeCount;
             int remainingBudget = totalBudget;
+            
+            // Reset round-robin probe count for this frame
+            _lastRoundRobinProbeCount = 0;
 
             using (HashSetPool<PRTProbe>.Get(out var addedProbes))
             {
@@ -571,6 +576,7 @@ namespace Illusion.Rendering.PRTGI
                 {
                     int startIndex = _currentProbeUpdateIndex;
                     int checkedCount = 0;
+                    int addedFromRoundRobin = 0;
 
                     while (remainingBudget > 0 && checkedCount < _probesInBoundingBox.Count)
                     {
@@ -582,10 +588,13 @@ namespace Illusion.Rendering.PRTGI
                             probes.Add(probe);
                             addedProbes.Add(probe);
                             remainingBudget--;
+                            addedFromRoundRobin++;
                         }
 
                         checkedCount++;
                     }
+                    
+                    _lastRoundRobinProbeCount = addedFromRoundRobin;
                 }
             }
         }
@@ -628,9 +637,25 @@ namespace Illusion.Rendering.PRTGI
         {
             if (EnableMultiFrameRelight())
             {
-                // Advance the update index for next frame
-                _currentProbeUpdateIndex += _probesToUpdateCount;
-                if (_currentProbeUpdateIndex >= _probesInBoundingBox.Count)
+                // Advance the update index for next frame based on actual probes added from round-robin
+                // This ensures we don't skip probes when priority queue or local probes consume budget
+                if (_lastRoundRobinProbeCount > 0)
+                {
+                    _currentProbeUpdateIndex += _lastRoundRobinProbeCount;
+                }
+                else
+                {
+                    // If no probes were added from round-robin (all budget used by priority/local),
+                    // still advance by the expected amount to maintain progress
+                    _currentProbeUpdateIndex += _probesToUpdateCount;
+                }
+                
+                // Wrap around if we've gone past the end
+                if (_probesInBoundingBox.Count > 0)
+                {
+                    _currentProbeUpdateIndex %= _probesInBoundingBox.Count;
+                }
+                else
                 {
                     _currentProbeUpdateIndex = 0;
                 }
@@ -654,6 +679,7 @@ namespace Illusion.Rendering.PRTGI
             _originalBoxMin = new Vector3Int(-1, -1, -1);
             _frameCount = 0;
             _currentProbeUpdateIndex = 0;
+            _lastRoundRobinProbeCount = 0;
             _probesToUpdateCount = Probes != null ? CalculateProbesPerFrameUpdate(_probesInBoundingBox.Count, probesPerFrameUpdate) : 0;
         }
 
@@ -817,6 +843,7 @@ namespace Illusion.Rendering.PRTGI
 
             _probesToUpdateCount = CalculateProbesPerFrameUpdate(_probesInBoundingBox.Count, probesPerFrameUpdate);
             _currentProbeUpdateIndex = 0;
+            _lastRoundRobinProbeCount = 0;
         }
 
         /// <summary>
